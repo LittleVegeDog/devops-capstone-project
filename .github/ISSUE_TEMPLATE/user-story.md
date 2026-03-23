@@ -1,6 +1,6 @@
 ---
 name: User Story
-description: Create a user story following the BDD format
+about: Create a user story following the BDD format
 title: "[USER STORY]"
 labels: ["user-story"]
 ---
