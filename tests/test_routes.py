@@ -200,3 +200,12 @@ class TestAccountService(TestCase):
         )
         # Check if status code is 404
         self.assertEqual(test_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_an_account(self):
+        """
+        It should Delete an Account
+        """
+        test_acct = self._create_accounts(1)[0]
+        test_resp = self.client.delete(f"{BASE_URL}/{test_acct.id}")
+        self.assertEqual(test_resp.status_code, status.HTTP_204_NO_CONTENT)
+        return
