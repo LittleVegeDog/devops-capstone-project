@@ -124,3 +124,42 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
+    def test_read_an_account(self):
+        """
+        It should Read and return a single account's info with values 
+        matching the values being used to create the new account.
+        """
+        account = self._create_accounts(1)[0]
+        
+        # account = AccountFactory()
+        # response = self.client.post(
+        #     BASE_URL,
+        #     json=account.serialize(),
+        #     content_type="application/json"
+        # )
+        
+        # Check if status code is 200
+        test_resp = self.client.get(
+            f"{BASE_URL}/{account.id}",
+            content_type="application/json"
+        )
+        self.assertEqual(test_resp.status_code, status.HTTP_200_OK)
+        
+        # Check if the info returned in the response match the 
+        # values that was used to create the account       
+        test_resp_json = test_resp.get_json()
+        self.assertEqual(test_resp_json["name"], account.name)
+        self.assertEqual(test_resp_json["email"], account.email)
+        self.assertEqual(test_resp_json["address"], account.address)
+        self.assertEqual(test_resp_json["phone_number"], account.phone_number)
+        self.assertEqual(test_resp_json["date_joined"], str(account.date_joined))
+
+    def test_account_not_found(self):
+        """
+        It should try to read an account with non-existing id value and return 404 error
+        """
+        test_resp = self.client.get(f"{BASE_URL}/0")
+        # Check if status code is 404
+        self.assertEqual(test_resp.status_code, status.HTTP_404_NOT_FOUND)
+    
+    
