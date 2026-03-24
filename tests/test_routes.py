@@ -162,4 +162,41 @@ class TestAccountService(TestCase):
         # Check if status code is 404
         self.assertEqual(test_resp.status_code, status.HTTP_404_NOT_FOUND)
     
+    def test_update_an_account(self):
+        """
+        It should Update an existing Account
+        """
+        # Create an account to test Update
+        test_acct = AccountFactory()
+        new_acct_resp = self.client.post(
+            BASE_URL,
+            json=test_acct.serialize(),
+            content_type="application/json"
+        )
+        self.assertEqual(new_acct_resp.status_code, status.HTTP_201_CREATED)
+
+        # Update the new account's name
+        new_acct_json = new_acct_resp.get_json()
+        new_acct_json["name"] = "Updated Name"
+        update_resp = self.client.put(
+            f"{BASE_URL}/{new_acct_json['id']}",
+            json=new_acct_json,
+            content_type="application/json"
+        )
+        self.assertEqual(update_resp.status_code, status.HTTP_200_OK)
+        update_resp_json = update_resp.get_json()
+        self.assertEqual(update_resp_json["name"], "Updated Name")
+        return
     
+    def test_update_account_not_found(self):
+        """
+        It should try to read an account with non-existing id value and return 404 error
+        """
+        test_acct = AccountFactory()
+        test_resp = self.client.put(
+            f"{BASE_URL}/0",
+            json=test_acct.serialize(),
+            content_type="application/json"
+        )
+        # Check if status code is 404
+        self.assertEqual(test_resp.status_code, status.HTTP_404_NOT_FOUND)
