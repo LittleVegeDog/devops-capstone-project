@@ -209,3 +209,23 @@ class TestAccountService(TestCase):
         test_resp = self.client.delete(f"{BASE_URL}/{test_acct.id}")
         self.assertEqual(test_resp.status_code, status.HTTP_204_NO_CONTENT)
         return
+    
+    def test_list_accounts(self):
+        """
+        It should GET a list of Accounts
+        """
+        self._create_accounts(5)
+        # Make request and check status code
+        test_resp = self.client.get(BASE_URL)
+        self.assertEqual(test_resp.status_code, status.HTTP_200_OK)
+        # check the number of accounts being listed
+        test_resp_json = test_resp.get_json()
+        self.assertEqual(len(test_resp_json), 5)
+        return
+    
+    def test_method_not_allowed(self):
+        """
+        It should not allow an illegal method call
+        """
+        test_resp = self.client.delete(BASE_URL)
+        self.assertEqual(test_resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
