@@ -61,6 +61,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
+
 # ... place you code here to LIST accounts ...
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
@@ -80,6 +81,7 @@ def list_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
+
 # ... place you code here to READ an account ...
 @app.route("/accounts/<int:acct_id>", methods=["GET"])
 def read_accounts(acct_id):
@@ -90,15 +92,16 @@ def read_accounts(acct_id):
     app.logger.info("Request to read an Account with id: %s", acct_id)
 
     resp = Account.find(acct_id)
-    
+
     if not resp:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{acct_id}] could not be found.")
-    
+
     return resp.serialize(), status.HTTP_200_OK
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
+
 
 # ... place you code here to UPDATE an account ...
 @app.route("/accounts/<int:acct_id>", methods=["PUT"])
@@ -108,10 +111,10 @@ def update_accounts(acct_id):
     This endpoint will update the data of an Account based on the acct_id value that is requested
     """
     update_acct = Account.find(acct_id)
-    
+
     if not update_acct:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{acct_id}] could not be found.")
-    
+
     update_acct.deserialize(request.get_json())
     update_acct.update()
     return update_acct.serialize(), status.HTTP_200_OK
@@ -119,6 +122,7 @@ def update_accounts(acct_id):
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
+
 
 # ... place you code here to DELETE an account ...
 @app.route("/accounts/<int:acct_id>", methods=["DELETE"])
