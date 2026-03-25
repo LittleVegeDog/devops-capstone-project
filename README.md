@@ -1,5 +1,7 @@
 # devops-capstone-project
 
+![Build Status](https://github.com/LittleVegeDog/devops-capstone-project/actions/workflows/ci-build.yaml/badge.svg)
+
 This is a repository for the Capstone Project of the IBM DevOps and Software Engineering Professional Certificate. Using the repo template provided by the course instructors.
 
 ## Useful commands
