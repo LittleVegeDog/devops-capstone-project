@@ -243,7 +243,7 @@ class TestAccountService(TestCase):
         )
         # Check if status code is OK
         self.assertEqual(test_resp.status_code, status.HTTP_200_OK)
-        
+
         # Check if the required security headers and their values exist
         required_headers = {
             'X-Frame-Options': 'SAMEORIGIN',
