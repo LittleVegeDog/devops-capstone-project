@@ -129,27 +129,27 @@ class TestAccountService(TestCase):
     # ADD YOUR TEST CASES HERE ...
     def test_read_an_account(self):
         """
-        It should Read and return a single account's info with values 
+        It should Read and return a single account's info with values
         matching the values being used to create the new account.
         """
         account = self._create_accounts(1)[0]
-        
+
         # account = AccountFactory()
         # response = self.client.post(
         #     BASE_URL,
         #     json=account.serialize(),
         #     content_type="application/json"
         # )
-        
+
         # Check if status code is 200
         test_resp = self.client.get(
             f"{BASE_URL}/{account.id}",
             content_type="application/json"
         )
         self.assertEqual(test_resp.status_code, status.HTTP_200_OK)
-        
-        # Check if the info returned in the response match the 
-        # values that was used to create the account       
+
+        # Check if the info returned in the response match the
+        # values that was used to create the account
         test_resp_json = test_resp.get_json()
         self.assertEqual(test_resp_json["name"], account.name)
         self.assertEqual(test_resp_json["email"], account.email)
@@ -164,7 +164,7 @@ class TestAccountService(TestCase):
         test_resp = self.client.get(f"{BASE_URL}/0")
         # Check if status code is 404
         self.assertEqual(test_resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_update_an_account(self):
         """
         It should Update an existing Account
@@ -190,7 +190,7 @@ class TestAccountService(TestCase):
         update_resp_json = update_resp.get_json()
         self.assertEqual(update_resp_json["name"], "Updated Name")
         return
-    
+
     def test_update_account_not_found(self):
         """
         It should try to read an account with non-existing id value and return 404 error
@@ -212,7 +212,7 @@ class TestAccountService(TestCase):
         test_resp = self.client.delete(f"{BASE_URL}/{test_acct.id}")
         self.assertEqual(test_resp.status_code, status.HTTP_204_NO_CONTENT)
         return
-    
+
     def test_list_accounts(self):
         """
         It should GET a list of Accounts
@@ -225,14 +225,14 @@ class TestAccountService(TestCase):
         test_resp_json = test_resp.get_json()
         self.assertEqual(len(test_resp_json), 5)
         return
-    
+
     def test_method_not_allowed(self):
         """
         It should not allow an illegal method call
         """
         test_resp = self.client.delete(BASE_URL)
         self.assertEqual(test_resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-    
+
     def test_sec_headers(self):
         """
         It should return security headers with required values
@@ -243,7 +243,7 @@ class TestAccountService(TestCase):
         )
         # Check if status code is OK
         self.assertEqual(test_resp.status_code, status.HTTP_200_OK)
-        
+
         # Check if the required security headers and their values exist
         required_headers = {
             'X-Frame-Options': 'SAMEORIGIN',
@@ -253,7 +253,7 @@ class TestAccountService(TestCase):
         }
         for key in required_headers.keys():
             self.assertEqual(test_resp.headers.get(key), required_headers[key])
-    
+
     def test_cors_policies(self):
         """
         It should return CORS policies
